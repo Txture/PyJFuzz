@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 import random
+import uuid
 import string
 import re
 import struct
@@ -43,13 +44,13 @@ class PJFMutators(object):
         self.config = configuration
         self.json_fuzzer = self.fuzz
         self.string_mutator = {
-            0: lambda x: False,
+            0: lambda x: self.random_txture_id(),
             1: lambda x: self.json_fuzzer(self.get_string_polyglot_attack(x)),
             2: lambda x: "",
             3: lambda x: [x],
-            4: lambda x: [{str(x): str(x)}],
+            4: lambda x: [{str(x): self.random_txture_id()}],
             5: lambda x: {"param": self.json_fuzzer(self.get_string_polyglot_attack(x))},
-            6: lambda x: 0,
+            6: lambda x: self.random_txture_id(),
         }
 
         self.boolean_mutator = {
@@ -129,6 +130,9 @@ class PJFMutators(object):
         Get a random mutator from a list of mutators
         """
         return self.mutator[obj_type][random.randint(0, self.config.level)]
+
+    def random_txture_id(self):
+        return {random.choice(['t:', 'd:'])} + str(uuid.uuid4())
 
     def get_mutator(self, obj, obj_type):
         """
