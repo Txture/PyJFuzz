@@ -132,7 +132,7 @@ class PJFMutators(object):
         return self.mutator[obj_type][random.randint(0, self.config.level)]
 
     def random_txture_id(self):
-        return {random.choice(['t:', 'd:'])} + str(uuid.uuid4())
+        return random.choice(['t:', 'd:']) + str(uuid.uuid4())
 
     def get_mutator(self, obj, obj_type):
         """
